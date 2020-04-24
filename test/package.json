@@ -1,0 +1,9 @@
+{
+    "name": "tests",
+    "version": "0.0.0",
+    "mappings": {
+        "montage-charts": "../",
+        "montage": "../node_modules/montage",
+        "montage-testing": "../node_modules/montage-testing"
+    }
+}
