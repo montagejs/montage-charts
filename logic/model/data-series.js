@@ -198,6 +198,11 @@ exports.DataSeries = Target.specialize({
                     self.defineColumn(key, columns[key]);
                 });
             }
+            this.color = deserializer.getProperty("color");
+            this.pointColor = deserializer.getProperty("pointColor");
+            this.lineColor = deserializer.getProperty("lineColor");
+            this.pointRadius = deserializer.getProperty("pointRadius");
+            this.lineWidth = deserializer.getProperty("lineWidth");
             return self;
         }
     },
