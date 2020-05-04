@@ -4,6 +4,7 @@
     "mappings": {
         "montage-charts": "../",
         "montage": "../node_modules/montage",
-        "montage-testing": "../node_modules/montage-testing"
+        "montage-testing": "../node_modules/montage-testing",
+        "frb": "../node_modules/frb"
     }
 }

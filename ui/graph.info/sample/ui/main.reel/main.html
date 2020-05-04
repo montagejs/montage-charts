@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="main.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "values": {
+                "element": {"#": "main"},
+                "graph": {"@": "graph"}
+            }
+        },
+        "graph": {
+            "prototype": "montage-charts/ui/graph.reel",
+            "values": {
+                "element": {"#": "graph"},
+                "title": "Title",
+                "titlePosition": "center",
+                "xAxisLabel": "X Axis Label",
+                "yAxisLabel": "Y Axis Label",
+                "dataSeries": {"<-": "@owner.dataSeries"},
+                "tooltip": {"@": "tooltip"}
+            }
+        },
+        "tooltip": {
+            "prototype": "montage/ui/text.reel",
+            "values": {
+                "element": {"#": "tooltip"},
+                "value": {"<-": "'This is data point #' + index + ' with data ' + datum"}
+            }
+        },
+        "titleInput": {
+            "prototype": "montage/ui/text-field.reel",
+            "values": {
+                "element": {"#": "titleInput"},
+                "value": {"<->": "@graph.title"}
+            }
+        },
+        "titlePositionSelect": {
+            "prototype": "montage/ui/select.reel",
+            "values": {
+                "element": {"#": "titlePositionSelect"},
+                "content": [
+                    {"value": "left"},
+                    {"value": "center"},
+                    {"value": "right"}
+                ],
+                "value": {"<->": "@graph.titlePosition"}
+            }
+        },
+        "dataSeriesControlsRepetition": {
+            "prototype": "montage/ui/repetition.reel",
+            "values": {
+                "element": {"#": "dataSeriesControlsRepetition"},
+                "content": {"<-": "@owner.dataSeries"}
+            }
+        },
+        "dataSeriesControls": {
+            "prototype": "montage/ui/component",
+            "values": {
+                "element": {"#": "dataSeriesControls"},
+                "hasTemplate": false
+            }
+        },
+        "dataSeriesName": {
+            "prototype": "montage/ui/text.reel",
+            "values": {
+                "element": {"#": "dataSeriesName"},
+                "value": {"<-": "'Series ' + @dataSeriesControlsRepetition:iteration.index"}
+            }
+        },
+        "colorInput": {
+            "prototype": "montage/ui/text-field.reel",
+            "values": {
+                "element": {"#": "colorInput"},
+                "value": {"<->": "@dataSeriesControlsRepetition:iteration.object.color"}
+            }
+        },
+        "pointColorInput": {
+            "prototype": "montage/ui/text-field.reel",
+            "values": {
+                "element": {"#": "pointColorInput"},
+                "value": {"<->": "@dataSeriesControlsRepetition:iteration.object.pointColor"}
+            }
+        },
+        "lineColorInput": {
+            "prototype": "montage/ui/text-field.reel",
+            "values": {
+                "element": {"#": "lineColorInput"},
+                "value": {"<->": "@dataSeriesControlsRepetition:iteration.object.lineColor"}
+            }
+        },
+        "pointRadiusSlider": {
+            "prototype": "montage/ui/slider.reel",
+            "values": {
+                "element": {"#": "pointRadiusSlider"},
+                "value": {"<->": "@dataSeriesControlsRepetition:iteration.object.pointRadius"},
+                "min": 0.5,
+                "max": 10,
+                "step": 0.25
+            }
+        },
+        "lineWidthSlider": {
+            "prototype": "montage/ui/slider.reel",
+            "values": {
+                "element": {"#": "lineWidthSlider"},
+                "value": {"<->": "@dataSeriesControlsRepetition:iteration.object.lineWidth"},
+                "min": 0.5,
+                "max": 5,
+                "step": 0.25
+            }
+        },
+        "randomizeDataButton": {
+            "prototype": "montage/ui/button.reel",
+            "values": {
+                "element": {"#": "randomizeDataButton"},
+                "dataSeries": {"<-": "@dataSeriesControlsRepetition:iteration.object"},
+                "label": "Randomize Data"
+            },
+            "listeners": [{
+                "type": "action",
+                "listener": {"@": "owner"}
+            }]
+        },
+        "removeDataSeriesButton": {
+            "prototype": "montage/ui/button.reel",
+            "values": {
+                "element": {"#": "removeDataSeriesButton"},
+                "dataSeries": {"<-": "@dataSeriesControlsRepetition:iteration.object"},
+                "label": "Remove Data Series"
+            },
+            "listeners": [{
+                "type": "action",
+                "listener": {"@": "owner"}
+            }]
+        },
+        "addDataSeriesButton": {
+            "prototype": "montage/ui/button.reel",
+            "values": {
+                "element": {"#": "addDataSeriesButton"},
+                "label": "Add Data Series"
+            },
+            "listeners": [{
+                "type": "action",
+                "listener": {"@": "owner"}
+            }]
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="main" class="Main">
+        <div data-montage-id="graph" class="Main-graph">
+            <div data-arg="tooltip" data-montage-id="tooltip" class="Main-graph-tooltip"></div>
+        </div>
+        <div class="controls">
+            <h4>Graph Settings</h4>
+            <div class="controls-control">
+                <label>Title</label>
+                <input type="text" data-montage-id="titleInput">
+            </div>
+            <div class="controls-control">
+                <label>Title Position</label>
+                <select data-montage-id="titlePositionSelect"></select>
+            </div>
+            <div data-montage-id="dataSeriesControlsRepetition">
+                <div data-montage-id="dataSeriesControls">
+                    <h4 data-montage-id="dataSeriesName"></h4>
+                    <div class="controls-control">
+                        <label>Color</label>
+                        <input type="text" data-montage-id="colorInput">
+                    </div>
+                    <div class="controls-control">
+                        <label>Point Color</label>
+                        <input type="text" data-montage-id="pointColorInput">
+                    </div>
+                    <div class="controls-control">
+                        <label>Line Color</label>
+                        <input type="text" data-montage-id="lineColorInput">
+                    </div>
+                    <div class="controls-control">
+                        <label>Point Radius</label>
+                        <input type="range" data-montage-id="pointRadiusSlider">
+                    </div>
+                    <div class="controls-control">
+                        <label>Line Width</label>
+                        <input type="range" data-montage-id="lineWidthSlider">
+                    </div>
+                    <button data-montage-id="randomizeDataButton"></button>
+                    <button data-montage-id="removeDataSeriesButton"></button>
+                </div>
+            </div>
+            <button data-montage-id="addDataSeriesButton"></button>
+        </div>
+    </div>
+</body>
+</html>

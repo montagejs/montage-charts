@@ -1,29 +1,31 @@
 {
-    "name": "montage-charts",
-    "version": "0.0.1",
-    "description": "Draw charts and figures with Montage.",
-    "dependencies": {
-        "montage": "montagejs/montage#17.2.4"
-    },
-    "devDependencies": {
-        "concurrently": "^3.4.0",
-        "frb": "~4.0.x",
-        "http-server": "^0.9.0",
-        "jasmine-console-reporter": "^1.2.7",
-        "jasmine-core": "^2.5.2",
-        "montage-testing": "montagejs/montage-testing#master",
-        "mr": "^17.0.14"
-    },
-    "license": "BSD-3-Clause",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/montagejs/montage-charts.git"
-    },
-    "scripts": {
-        "test": "node test/run-node.js",
-        "test:jasmine": "concurrently \"http-server -a localhost -p 8084\" \"open http://localhost:8084/test/run.html\""
-    },
-    "exclude": [
-        "test"
-    ]
+  "name": "montage-charts",
+  "version": "0.0.1",
+  "description": "Draw charts and figures with Montage.",
+  "dependencies": {
+    "collections": "^5.1.11",
+    "d3": "^5.15.1",
+    "montage": "montagejs/montage#17.2.4"
+  },
+  "devDependencies": {
+    "concurrently": "^3.4.0",
+    "frb": "~4.0.x",
+    "http-server": "^0.9.0",
+    "jasmine-console-reporter": "^1.2.7",
+    "jasmine-core": "^2.5.2",
+    "montage-testing": "montagejs/montage-testing#master",
+    "mr": "^17.0.14"
+  },
+  "license": "BSD-3-Clause",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/montagejs/montage-charts.git"
+  },
+  "scripts": {
+    "test": "node test/run-node.js",
+    "test:jasmine": "concurrently \"http-server -a localhost -p 8084\" \"open http://localhost:8084/test/run.html\""
+  },
+  "exclude": [
+    "test"
+  ]
 }

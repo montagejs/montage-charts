@@ -1,0 +1,14 @@
+{
+    "name": "sample",
+    "version": "0.1.0",
+    "dependencies": {
+        "montage-charts": "montagejs/montage-charts",
+        "montage": "montagejs/montage#17.2.4",
+        "d3": "*"
+    },
+    "mappings": {
+        "montage-charts": "../../..",
+        "d3": "../../../node_modules/d3"
+    },
+    "bundle": [ "ui/main.reel" ]
+}
