@@ -136,6 +136,7 @@ exports.GraphSeries = Component.specialize(/** @lends GraphSeries.prototype */{
                 translateY = growY === "up" ? "-100%" : "15px",
                 maxWidth = growX === "left" ? d3.event.pageX - this.boundingClientRect.x : this.boundingClientRect.x + this.boundingClientRect.width - d3.event.pageX,
                 maxHeight = growY === "up" ? d3.event.pageY - this.boundingClientRect.y : this.boundingClientRect.y + this.boundingClientRect.height - d3.event.pageY;
+            d3.select(elements[index]).classed("GraphSeries-point--hover", true);
             if (this.tooltip && this.tooltip.element) {
                 d3.select(this.tooltipContainer)
                     .style("left", d3.event.pageX + "px")
@@ -154,6 +155,7 @@ exports.GraphSeries = Component.specialize(/** @lends GraphSeries.prototype */{
 
     _handleMouseoutPoint: {
         value: function (dataPoint, index, elements) {
+            d3.select(elements[index]).classed("GraphSeries-point--hover", false);
             if (this.tooltip && this.tooltip.element) {
                 d3.select(this.tooltipContainer)
                     .style("pointer-events", "none");
