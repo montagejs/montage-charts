@@ -5,6 +5,11 @@
     padding: 16px 8px;
 }
 
+.Graph-title {
+    font-size: 20px;
+    text-align: center;
+}
+
 .Graph-svg {
     display: block;
     flex: 1;

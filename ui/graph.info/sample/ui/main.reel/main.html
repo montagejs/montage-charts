@@ -37,24 +37,12 @@
                 "value": {"<->": "@graph.title"}
             }
         },
-        "titlePositionSelect": {
-            "prototype": "montage/ui/select.reel",
-            "values": {
-                "element": {"#": "titlePositionSelect"},
-                "content": [
-                    {"value": "left"},
-                    {"value": "center"},
-                    {"value": "right"}
-                ],
-                "value": {"<->": "@graph.titlePosition"}
-            }
-        },
         "showLegendSelect": {
             "prototype": "montage/ui/select.reel",
             "values": {
                 "element": {"#": "showLegendSelect"},
                 "content": [
-                    {"text": "default", "value": null},
+                    {"text": "auto", "value": null},
                     {"text": "true", "value": "true"},
                     {"text": "false", "value": "false"}
                 ],
@@ -171,10 +159,6 @@
             <div class="controls-control">
                 <label>Title</label>
                 <input type="text" data-montage-id="titleInput">
-            </div>
-            <div class="controls-control">
-                <label>Title Position</label>
-                <select data-montage-id="titlePositionSelect"></select>
             </div>
             <div class="controls-control">
                 <label>Show Legend<label>

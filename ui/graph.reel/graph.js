@@ -14,13 +14,7 @@ exports.Graph = Component.specialize( /** @lends Graph# */ {
      * @type {String}
      */
     title: {
-        get: function () {
-            return this._title;
-        },
-        set: function (value) {
-            this._title = value;
-            this.needsDraw = true;
-        }
+        value: null
     },
 
     /**
@@ -48,7 +42,7 @@ exports.Graph = Component.specialize( /** @lends Graph# */ {
 
     marginTop: {
         get: function () {
-            return this._marginTop || 30;
+            return this._marginTop || 0;
         },
         set: function (value) {
             this._marginTop = value;
@@ -78,7 +72,7 @@ exports.Graph = Component.specialize( /** @lends Graph# */ {
 
     marginRight: {
         get: function () {
-            return this._marginRight || 10;
+            return this._marginRight || 0;
         },
         set: function (value) {
             this._marginRight = value;
@@ -107,9 +101,16 @@ exports.Graph = Component.specialize( /** @lends Graph# */ {
             this.defineBinding("rangeType", {"<-": "dataSeries.0.columns.get('y').type"});
             this.addPathChangeListener("domainType", this.requestDraw);
             this.addPathChangeListener("rangeType", this.requestDraw);
-            // handleResize instead of requestDraw to allow the DOM to reflow the legend element first
+
+            // The following listeners are expressions that (may) cause the
+            // title or legend to show/hide, which (may) change the dimensions
+            // of the svg and require a draw.
+            // We listen with handleResize instead of requestDraw to allow
+            // the DOM to reflow the other elements first, ensuring that when
+            // we draw we will have an accurate bounding client rect.
             this.addRangeAtPathChangeListener("dataSeries", this.handleResize);
             this.addPathChangeListener("showLegend", this.handleResize);
+            this.addPathChangeListener("title.defined() && title.length > 0", this.handleResize);
         }
     },
 
@@ -161,41 +162,15 @@ exports.Graph = Component.specialize( /** @lends Graph# */ {
                 .attr("width", this._width)
                 .attr("height", this._height)
                 .attr("transform", "translate(" + this.marginLeft + "," + this.marginTop + ")");
-            this._drawTitle();
+            this._buildScales();
             this._drawAxes();
-        }
-    },
-
-    _drawTitle: {
-        value: function () {
-            var title;
-            if (this.title) {
-                title = d3.select(this.titleElement)
-                    .transition()
-                    .attr("y", 0 - (this.marginTop / 2))
-                    .attr("font-size", "20")
-                    .text(this.title);
-                switch (this.titlePosition) {
-                    default:
-                    case "left":
-                        title.attr("x", 0).attr("text-anchor", "start");
-                        break;
-                    case "center":
-                        title.attr("x", this._width / 2).attr("text-anchor", "middle");
-                        break;
-                    case "right":
-                        title.attr("x", this._width).attr("text-anchor", "end");
-                        break;
-                }
-            }
         }
     },
 
     _drawAxes: {
         value: function () {
-            var xAxis, yAxis;
-            this._buildScales();
-            xAxis = d3.axisBottom(this._xScale);
+            var xAxis = d3.axisBottom(this._xScale),
+                yAxis = d3.axisLeft(this._yScale);
             d3.select(this.xAxisElement)
                 .transition()
                 .attr("transform", "translate(0," + this._height + ")")
@@ -206,10 +181,9 @@ exports.Graph = Component.specialize( /** @lends Graph# */ {
                     .attr("x", this._width / 2)
                     .attr("y", this._height + 3 * this.marginBottom / 4)
                     .attr("text-anchor", "middle")
-                    .attr("font-size", "10")
+                    .attr("font-size", "12")
                     .text(this.xAxisLabel);
             }
-            yAxis = d3.axisLeft(this._yScale);
             d3.select(this.yAxisElement)
                 .transition()
                 .call(yAxis);
@@ -219,7 +193,7 @@ exports.Graph = Component.specialize( /** @lends Graph# */ {
                     .attr("x", -this._height / 2)
                     .attr("y", 20 - this.marginLeft)
                     .attr("text-anchor", "middle")
-                    .attr("font-size", "10")
+                    .attr("font-size", "12")
                     .attr("transform", "rotate(-90)")
                     .text(this.yAxisLabel);
             }

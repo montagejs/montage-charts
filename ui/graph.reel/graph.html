@@ -10,12 +10,19 @@
                 "element": {"#": "owner"},
                 "svg": {"#": "svg"},
                 "view": {"#": "view"},
-                "titleElement": {"#": "title"},
                 "xAxisElement": {"#": "xAxis"},
                 "xAxisLabelElement": {"#": "xAxisLabel"},
                 "yAxisElement": {"#": "yAxis"},
                 "yAxisLabelElement": {"#": "yAxisLabel"},
                 "tooltipContainer": {"#": "tooltipContainer"}
+            }
+        },
+
+        "title": {
+            "prototype": "montage/ui/text.reel",
+            "values": {
+                "element": {"#": "title"},
+                "value": {"<-": "@owner.title"}
             }
         },
 
@@ -68,9 +75,9 @@
 </head>
 <body>
     <div data-montage-id="owner" class="Graph">
+        <div data-montage-id="title" class="Graph-title"></div>
         <svg data-montage-id="svg" class="Graph-svg">
             <g data-montage-id="view" class="Graph-view">
-                <text data-montage-id="title"></text>
                 <g data-montage-id="xAxis" class="Graph-axis Graph-axis-x"></g>
                 <text data-montage-id="xAxisLabel"></text>
                 <g data-montage-id="yAxis" class="Graph-axis Graph-axis-y"></g>
