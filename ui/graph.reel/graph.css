@@ -1,10 +1,28 @@
 .Graph {
+    display: flex;
+    flex-direction: column;
     position: relative;
+    padding: 16px 8px;
 }
 
 .Graph-svg {
     display: block;
-    position: absolute;
+    flex: 1;
+}
+
+.Graph-legend {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.Graph-legend.montage-invisible {
+    display: none;
+}
+
+.Graph-legend > * + * {
+    margin-left: 16px;
 }
 
 .Graph-tooltip-container {

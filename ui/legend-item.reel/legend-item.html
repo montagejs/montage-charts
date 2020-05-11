@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" href="legend-item.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "values": {
+                "element": {"#": "owner"},
+                "icon": {"#": "icon"}
+            }
+        },
+
+        "name": {
+            "prototype": "montage/ui/text.reel",
+            "values": {
+                "element": {"#": "name"},
+                "value": {"<-": "@owner.dataSeries.name"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="LegendItem">
+        <svg data-montage-id="icon" class="LegendItem-icon"></svg>
+        <div data-montage-id="name" class="LegendItem-name"></div>
+    </div>
+</body>
+</html>

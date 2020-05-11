@@ -49,6 +49,18 @@
                 "value": {"<->": "@graph.titlePosition"}
             }
         },
+        "showLegendSelect": {
+            "prototype": "montage/ui/select.reel",
+            "values": {
+                "element": {"#": "showLegendSelect"},
+                "content": [
+                    {"text": "default", "value": null},
+                    {"text": "true", "value": "true"},
+                    {"text": "false", "value": "false"}
+                ],
+                "value": {"<->": "@owner.showLegend"}
+            }
+        },
         "dataSeriesControlsRepetition": {
             "prototype": "montage/ui/repetition.reel",
             "values": {
@@ -163,6 +175,10 @@
             <div class="controls-control">
                 <label>Title Position</label>
                 <select data-montage-id="titlePositionSelect"></select>
+            </div>
+            <div class="controls-control">
+                <label>Show Legend<label>
+                <select data-montage-id="showLegendSelect"></select>
             </div>
             <div data-montage-id="dataSeriesControlsRepetition">
                 <div data-montage-id="dataSeriesControls">

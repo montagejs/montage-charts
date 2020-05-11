@@ -33,11 +33,13 @@ exports.GraphSeries = Component.specialize(/** @lends GraphSeries.prototype */{
         },
         set: function (value) {
             if (value !== this._dataSeries) {
-                if (!value.columns.has("x")) {
-                    value.defineColumn("x", {"<-": "x"});
-                }
-                if (!value.columns.has("y")) {
-                    value.defineColumn("y", {"<-": "y"});
+                if (value) {
+                    if (!value.columns.has("x")) {
+                        value.defineColumn("x", {"<-": "x"});
+                    }
+                    if (!value.columns.has("y")) {
+                        value.defineColumn("y", {"<-": "y"});
+                    }
                 }
                 this._dataSeries = value;
                 this.needsDraw = true;

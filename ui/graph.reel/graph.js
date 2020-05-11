@@ -86,10 +86,19 @@ exports.Graph = Component.specialize( /** @lends Graph# */ {
         }
     },
 
+    /**
+     * Whether to show a legend. The default value (null) causes the legend to
+     * be shown only when this graph has more than one data series.
+     * @type {null | true | false}
+     */
+    showLegend: {
+        value: null
+    },
+
     constructor: {
         value: function Graph() {
             this.requestDraw = this.requestDraw.bind(this);
-            this.handleWindowResize = this.handleWindowResize.bind(this);
+            this.handleResize = this.handleResize.bind(this);
             this.defineBinding("domain", {"<-": "[dataSeries.map{columns.get('x').min}.min(), dataSeries.map{columns.get('x').max}.max()]"});
             this.defineBinding("range", {"<-": "[dataSeries.map{columns.get('y').min}.min(), dataSeries.map{columns.get('y').max}.max()]"});
             this.addRangeAtPathChangeListener("domain", this.requestDraw);
@@ -98,6 +107,9 @@ exports.Graph = Component.specialize( /** @lends Graph# */ {
             this.defineBinding("rangeType", {"<-": "dataSeries.0.columns.get('y').type"});
             this.addPathChangeListener("domainType", this.requestDraw);
             this.addPathChangeListener("rangeType", this.requestDraw);
+            // handleResize instead of requestDraw to allow the DOM to reflow the legend element first
+            this.addRangeAtPathChangeListener("dataSeries", this.handleResize);
+            this.addPathChangeListener("showLegend", this.handleResize);
         }
     },
 
@@ -109,13 +121,16 @@ exports.Graph = Component.specialize( /** @lends Graph# */ {
 
     enterDocument: {
         value: function () {
-            if (typeof window !== "undefined") {
-                window.addEventListener("resize", this.handleWindowResize);
+            if (typeof ResizeObserver !== "undefined") {
+                this._resizeObserver = new ResizeObserver(this.handleResize);
+                this._resizeObserver.observe(this.element);
+            } else if (typeof window !== "undefined") {
+                window.addEventListener("resize", this.handleResize);
             }
         }
     },
 
-    handleWindowResize: {
+    handleResize: {
         value: function () {
             this._requestDrawTimeout && clearTimeout(this._requestDrawTimeout);
             this._requestDrawTimeout = setTimeout(this.requestDraw, 250);
@@ -124,7 +139,9 @@ exports.Graph = Component.specialize( /** @lends Graph# */ {
 
     exitDocument: {
         value: function () {
-            if (typeof window !== "undefined") {
+            if (typeof ResizeObserver !== "undefined" && this._resizeObserver) {
+                this._resizeObserver.disconnect();
+            } else if (typeof window !== "undefined") {
                 window.removeEventListener("resize", this.handleWindowResize);
             }
         }
@@ -132,7 +149,7 @@ exports.Graph = Component.specialize( /** @lends Graph# */ {
 
     willDraw: {
         value: function () {
-            this._boundingClientRect = this.element.getBoundingClientRect();
+            this._boundingClientRect = this.svg.getBoundingClientRect();
             this._width = this._boundingClientRect.width - this.marginLeft - this.marginRight;
             this._height = this._boundingClientRect.height - this.marginTop - this.marginBottom;
         }
@@ -140,10 +157,9 @@ exports.Graph = Component.specialize( /** @lends Graph# */ {
 
     draw: {
         value: function () {
-            d3.select(this.svg)
-                .attr("width", this._width + this.marginLeft + this.marginRight)
-                .attr("height", this._height + this.marginTop + this.marginBottom);
             d3.select(this.view)
+                .attr("width", this._width)
+                .attr("height", this._height)
                 .attr("transform", "translate(" + this.marginLeft + "," + this.marginTop + ")");
             this._drawTitle();
             this._drawAxes();
@@ -199,6 +215,7 @@ exports.Graph = Component.specialize( /** @lends Graph# */ {
                 .call(yAxis);
             if (this.yAxisLabel) {
                 d3.select(this.yAxisLabelElement)
+                    .transition()
                     .attr("x", -this._height / 2)
                     .attr("y", 20 - this.marginLeft)
                     .attr("text-anchor", "middle")

@@ -1,0 +1,10 @@
+.LegendItem {
+    display: flex;
+    align-items: center;
+}
+
+.LegendItem-icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 4px;
+}

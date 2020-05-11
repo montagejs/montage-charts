@@ -26,6 +26,17 @@ exports.Main = Component.specialize(/** @lends Main.prototype */{
         }
     },
 
+    showLegend: {
+        get: function () {
+            return this._showLegend;
+        },
+        set: function (value) {
+            this._showLegend = value;
+            // Work around the select not allowing the boolean false as a value
+            this.graph.showLegend = value === null ? null : value === "true" ? true : false;
+        }
+    },
+
     handleRandomizeDataButtonAction: {
         value: function (event) {
             this.randomizeData(event.target.dataSeries);
@@ -64,21 +75,10 @@ exports.Main = Component.specialize(/** @lends Main.prototype */{
     addDataSeries: {
         value: function () {
             var dataSeries = new DataSeries();
-            // dataSeries.defineColumn("x", {"<-": "x"});
-            // dataSeries.defineColumn("y", {"<-": "y"});
+            dataSeries.name = "Data Series #" + this.dataSeries.length;
             this.randomizeData(dataSeries);
             dataSeries.color = this.COLOR_PALETTE(this.dataSeries.length);
             this.dataSeries.push(dataSeries);
         }
-    },
-
-    timeData: {
-        value: [
-            {x: new Date(), y: 1},
-            {x: new Date(Date.now() + 1000 * 60 * 60 * 24), y: 2},
-            {x: new Date(Date.now() + 1000 * 60 * 60 * 24 * 2), y: 4},
-            {x: new Date(Date.now() + 1000 * 60 * 60 * 24 * 3), y: 1},
-            {x: new Date(Date.now() + 1000 * 60 * 60 * 24 * 4), y: 5}
-        ]
     }
 });

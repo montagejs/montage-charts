@@ -45,6 +45,23 @@
                 "tooltipContainer": {"<-": "@owner.tooltipContainer"},
                 "tooltip": {"<-": "@owner.tooltip"}
             }
+        },
+
+        "legend": {
+            "prototype": "montage/ui/repetition.reel",
+            "values": {
+                "element": {"#": "legend"},
+                "content": {"<-": "@owner.dataSeries"},
+                "classList.has('montage-invisible')": {"<-": "@owner.showLegend.defined() ? !@owner.showLegend : @owner.dataSeries.length < 2"}
+            }
+        },
+
+        "legendItem": {
+            "prototype": "ui/legend-item.reel",
+            "values": {
+                "element": {"#": "legendItem"},
+                "dataSeries": {"<-": "@legend:iteration.object"}
+            }
         }
     }
     </script>
@@ -63,6 +80,9 @@
                 </g>
             </g>
         </svg>
+        <div data-montage-id="legend" class="Graph-legend">
+            <div data-montage-id="legendItem"></div>
+        </div>
         <div data-montage-id="tooltipContainer" class="Graph-tooltip-container">
             <div data-param="tooltip" class="Graph-tooltip"></div>
         </div>
