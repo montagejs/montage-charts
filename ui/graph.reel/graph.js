@@ -202,8 +202,8 @@ exports.Graph = Component.specialize( /** @lends Graph# */ {
 
     _buildScales: {
         value: function () {
-            var xScale = (this.domainType === "Date" || this.domainType === "Moment") ? d3.scaleTime() : d3.scaleLinear(),
-                yScale = (this.rangeType === "Date" || this.rangeType === "Moment") ? d3.scaleTime() : d3.scaleLinear();
+            var xScale = (this.domainType === "time") ? d3.scaleTime() : d3.scaleLinear(),
+                yScale = (this.rangeType === "time") ? d3.scaleTime() : d3.scaleLinear();
             this._xScale = xScale.domain(this._padExtent(this.domain)).range([0, this._width]);
             this._yScale = yScale.domain(this._padExtent(this.range)).range([this._height, 0]);
         }

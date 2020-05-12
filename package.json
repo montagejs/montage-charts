@@ -6,6 +6,7 @@
     "collections": "^5.1.11",
     "d3": "^5.15.1",
     "frb": "~4.0.x",
+    "moment": "^2.25.3",
     "montage": "montagejs/montage#17.2.4"
   },
   "devDependencies": {

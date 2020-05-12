@@ -1,7 +1,8 @@
 var Target = require("montage/core/target").Target,
     parse = require("frb/parse"),
     evaluate = require("frb/evaluate"),
-    Map = require("collections/map");
+    Map = require("collections/map")
+    Moment = require("moment");
 
 var Column = Target.specialize({
 
@@ -29,7 +30,7 @@ var Column = Target.specialize({
     },
 
     /**
-     * @type {String}
+     * @type {'time' | 'number'}
      */
     type: {
         value: undefined
@@ -103,7 +104,13 @@ var Column = Target.specialize({
 
     _typeOf: {
         value: function (value) {
-            return value != null ? value.constructor.name : undefined;
+            if (value == null) {
+                return undefined;
+            } else if (Moment.isMoment(value) || value instanceof Date) {
+                return "time";
+            } else {
+                return "number";
+            }
         }
     }
 });
