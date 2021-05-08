@@ -89,6 +89,14 @@ exports.Graph = Component.specialize( /** @lends Graph# */ {
         value: null
     },
 
+    /**
+     * Whether to draw visible gridlines instead of ticks on the axes.
+     * @type {Boolean}
+     */
+    shouldDrawGridlines: {
+        value: false
+    },
+
     constructor: {
         value: function Graph() {
             this.requestDraw = this.requestDraw.bind(this);
@@ -169,12 +177,11 @@ exports.Graph = Component.specialize( /** @lends Graph# */ {
 
     _drawAxes: {
         value: function () {
-            var xAxis = d3.axisBottom(this._xScale),
-                yAxis = d3.axisLeft(this._yScale);
+            var axes = this._buildAxes();
             d3.select(this.xAxisElement)
                 .transition()
                 .attr("transform", "translate(0," + this._height + ")")
-                .call(xAxis);
+                .call(axes.x);
             if (this.xAxisLabel) {
                 d3.select(this.xAxisLabelElement)
                     .transition()
@@ -186,7 +193,7 @@ exports.Graph = Component.specialize( /** @lends Graph# */ {
             }
             d3.select(this.yAxisElement)
                 .transition()
-                .call(yAxis);
+                .call(axes.y);
             if (this.yAxisLabel) {
                 d3.select(this.yAxisLabelElement)
                     .transition()
@@ -197,6 +204,16 @@ exports.Graph = Component.specialize( /** @lends Graph# */ {
                     .attr("transform", "rotate(-90)")
                     .text(this.yAxisLabel);
             }
+        }
+    },
+
+    _buildAxes: {
+        value: function () {
+            var x = d3.axisBottom(this._xScale),
+                y = d3.axisLeft(this._yScale);
+            x = this.shouldDrawGridlines ? x.tickSize(-this._height).tickPadding(6).tickSizeOuter(0) : x;
+            y = this.shouldDrawGridlines ? y.tickSize(-this._width).tickPadding(6).tickSizeOuter(0) : y;
+            return {x: x, y: y};
         }
     },
 
