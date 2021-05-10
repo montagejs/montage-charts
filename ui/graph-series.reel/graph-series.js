@@ -113,6 +113,11 @@ exports.GraphSeries = Component.specialize(/** @lends GraphSeries.prototype */{
                 .attr("stroke-width", this.dataSeries.lineWidth)
                 .attr("pointer-events", "none")
                 .attr("d", d3.line().x(this._drawingX).y(this._drawingY));
+            d3.select(this.area)
+                .datum(this.dataSeries.data)
+                .transition()
+                .attr("class", "GraphSeries-area")
+                .attr("d", d3.area().x(this._drawingX).y0(this._maxDrawingY).y1(this._drawingY));
         }
     },
 
@@ -125,6 +130,12 @@ exports.GraphSeries = Component.specialize(/** @lends GraphSeries.prototype */{
     _drawingY: {
         value: function (datum) {
             return this.yScale ? this.yScale(this.dataSeries.columns.get('y').getValue(datum)) : 0;
+        }
+    },
+
+    _maxDrawingY: {
+        get: function () {
+            return this.yScale ? this.yScale(this.graph.range[0]) : 0;
         }
     },
 
