@@ -97,6 +97,24 @@ exports.Graph = Component.specialize( /** @lends Graph# */ {
         value: false
     },
 
+    /**
+     * Whether the x axis tick lines/labels should only consist of integer values.
+     * values.
+     * @type {Boolean}
+     */
+    shouldUseIntegerXTicks: {
+        value: false
+    },
+
+    /**
+     * Whether the x axis tick lines/labels should only consist of integer values.
+     * values.
+     * @type {Boolean}
+     */
+    shouldUseIntegerYTicks: {
+        value: false
+    },
+
     constructor: {
         value: function Graph() {
             this.requestDraw = this.requestDraw.bind(this);
@@ -235,6 +253,8 @@ exports.Graph = Component.specialize( /** @lends Graph# */ {
                 y = d3.axisLeft(this._yScale);
             x = this.shouldDrawGridlines ? x.tickSize(-this._height).tickPadding(6).tickSizeOuter(0) : x;
             y = this.shouldDrawGridlines ? y.tickSize(-this._width).tickPadding(6).tickSizeOuter(0) : y;
+            x = this.shouldUseIntegerXTicks ? x.tickValues(this._xScale.ticks().filter(Number.isInteger)).tickFormat(d3.format("d")) : x;
+            y = this.shouldUseIntegerYTicks ? y.tickValues(this._yScale.ticks().filter(Number.isInteger)).tickFormat(d3.format("d")) : y;
             return {x: x, y: y};
         }
     },
