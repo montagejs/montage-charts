@@ -101,8 +101,8 @@ exports.Graph = Component.specialize( /** @lends Graph# */ {
         value: function Graph() {
             this.requestDraw = this.requestDraw.bind(this);
             this.handleResize = this.handleResize.bind(this);
-            this.defineBinding("domain", {"<-": "[dataSeries.map{columns.get('x').min}.min(), dataSeries.map{columns.get('x').max}.max()]"});
-            this.defineBinding("range", {"<-": "[dataSeries.map{columns.get('y').min}.min(), dataSeries.map{columns.get('y').max}.max()]"});
+            this.defineBinding("_dataDomain", {"<-": "[dataSeries.map{columns.get('x').min}.min(), dataSeries.map{columns.get('x').max}.max()]"});
+            this.defineBinding("_dataRange", {"<-": "[dataSeries.map{columns.get('y').min}.min(), dataSeries.map{columns.get('y').max}.max()]"});
             this.addRangeAtPathChangeListener("domain", this.requestDraw);
             this.addRangeAtPathChangeListener("range", this.requestDraw);
             this.defineBinding("domainType", {"<-": "dataSeries.0.columns.get('x').type"});
@@ -119,6 +119,28 @@ exports.Graph = Component.specialize( /** @lends Graph# */ {
             this.addRangeAtPathChangeListener("dataSeries", this.handleResize);
             this.addPathChangeListener("showLegend", this.handleResize);
             this.addPathChangeListener("title.defined() && title.length > 0", this.handleResize);
+        }
+    },
+
+    domain: {
+        get: function () {
+            return this._domain || this._dataDomain;
+        },
+        set: function (value) {
+            if (value !== this._domain) {
+                this._domain = value;
+            }
+        }
+    },
+
+    range: {
+        get: function () {
+            return this._range || this._dataRange;
+        },
+        set: function (value) {
+            if (value !== this._range) {
+                this._range = value;
+            }
         }
     },
 
@@ -221,8 +243,8 @@ exports.Graph = Component.specialize( /** @lends Graph# */ {
         value: function () {
             var xScale = (this.domainType === "time") ? d3.scaleTime() : d3.scaleLinear(),
                 yScale = (this.rangeType === "time") ? d3.scaleTime() : d3.scaleLinear();
-            this._xScale = xScale.domain(this._padExtent(this.domain)).range([0, this._width]);
-            this._yScale = yScale.domain(this._padExtent(this.range)).range([this._height, 0]);
+            this._xScale = xScale.domain(this.domain).range([0, this._width]);
+            this._yScale = yScale.domain(this.range).range([this._height, 0]);
         }
     },
 
