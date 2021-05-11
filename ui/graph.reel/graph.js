@@ -52,7 +52,7 @@ exports.Graph = Component.specialize( /** @lends Graph# */ {
 
     marginBottom: {
         get: function () {
-            return this._marginBottom || 50;
+            return this._marginBottom || (this.xAxisLabel ? 50 : 15);
         },
         set: function (value) {
             this._marginBottom = value;
@@ -62,7 +62,7 @@ exports.Graph = Component.specialize( /** @lends Graph# */ {
 
     marginLeft: {
         get: function () {
-            return this._marginLeft || 50;
+            return this._marginLeft || (this.yAxisLabel ? 50 : 15);
         },
         set: function (value) {
             this._marginLeft = value;
