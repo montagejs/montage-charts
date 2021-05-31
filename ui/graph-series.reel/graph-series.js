@@ -123,19 +123,19 @@ exports.GraphSeries = Component.specialize(/** @lends GraphSeries.prototype */{
 
     _drawingX: {
         value: function (datum) {
-            return this.xScale ? this.xScale(this.dataSeries.columns.get('x').getValue(datum)) : 0;
+            return this.xScale && this.xScale(this.dataSeries.columns.get('x').getValue(datum)) || 0;
         }
     },
 
     _drawingY: {
         value: function (datum) {
-            return this.yScale ? this.yScale(this.dataSeries.columns.get('y').getValue(datum)) : 0;
+            return this.yScale && this.yScale(this.dataSeries.columns.get('y').getValue(datum)) || 0;
         }
     },
 
     _maxDrawingY: {
         get: function () {
-            return this.yScale ? this.yScale(this.graph.range[0]) : 0;
+            return this.yScale && this.yScale(this.graph.range[0]) || 0;
         }
     },
 
