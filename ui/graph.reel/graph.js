@@ -123,10 +123,10 @@ exports.Graph = Component.specialize( /** @lends Graph# */ {
             this.defineBinding("_dataRange", {"<-": "[dataSeries.map{columns.get('y').min}.min(), dataSeries.map{columns.get('y').max}.max()]"});
             this.addRangeAtPathChangeListener("domain", this.requestDraw);
             this.addRangeAtPathChangeListener("range", this.requestDraw);
-            this.defineBinding("domainType", {"<-": "dataSeries.0.columns.get('x').type"});
-            this.defineBinding("rangeType", {"<-": "dataSeries.0.columns.get('y').type"});
+            this.defineBinding("_dataDomainType", {"<-": "dataSeries.0.columns.get('x').type"});
+            this.defineBinding("_dataRangeType", {"<-": "dataSeries.0.columns.get('y').type"});
             this.addPathChangeListener("domainType", this.requestDraw);
-            this.addPathChangeListener("rangeType", this.requestDraw);
+            this.addPathChangeListenerr("rangeType", this.requestDraw);
 
             // The following listeners are expressions that (may) cause the
             // title or legend to show/hide, which (may) change the dimensions
@@ -158,6 +158,28 @@ exports.Graph = Component.specialize( /** @lends Graph# */ {
         set: function (value) {
             if (value !== this._range) {
                 this._range = value;
+            }
+        }
+    },
+
+    domainType: {
+        get: function () {
+            return this._domainType || this._dataDomainType;
+        },
+        set: function (value) {
+            if (value !== this._domainType) {
+                this._domainType = value;
+            }
+        }
+    },
+
+    rangeType: {
+        get: function () {
+            return this._rangeType || this._datarangeType;
+        },
+        set: function (value) {
+            if (value !== this._rangeType) {
+                this._rangeType = value;
             }
         }
     },
