@@ -126,7 +126,7 @@ exports.Graph = Component.specialize( /** @lends Graph# */ {
             this.defineBinding("_dataDomainType", {"<-": "dataSeries.0.columns.get('x').type"});
             this.defineBinding("_dataRangeType", {"<-": "dataSeries.0.columns.get('y').type"});
             this.addPathChangeListener("domainType", this.requestDraw);
-            this.addPathChangeListenerr("rangeType", this.requestDraw);
+            this.addPathChangeListener("rangeType", this.requestDraw);
 
             // The following listeners are expressions that (may) cause the
             // title or legend to show/hide, which (may) change the dimensions
